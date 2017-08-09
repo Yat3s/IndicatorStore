@@ -18,7 +18,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final int COMPLETE_DELAY = 3000;
-    private static final int GRID_SPAN = 3;
+    private static final int GRID_SPAN = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
         final ChopinLayout chopinLayout = (ChopinLayout) findViewById(R.id.chopin_layout);
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.lottie_rv);
-        LottieIndicator headerIndicator = new LottieIndicator(this, IndicatorStore.LOTTIE_CIRCLE_STROKE_WHITE, 0.2f);
-        LottieIndicator footerIndicator = new LottieIndicator(this, IndicatorStore.LOTTIE_CIRCLE_STROKE_WHITE, 0.2f);
+        LottieIndicator headerIndicator = new LottieIndicator(this, IndicatorStore.LOTTIE_AROUND_THE_WORLD, 0.2f);
+        LottieIndicator footerIndicator = new LottieIndicator(this, IndicatorStore.LOTTIE_AROUND_THE_WORLD, 0.2f);
         chopinLayout.setRefreshHeaderIndicator(headerIndicator);
         chopinLayout.setLoadingFooterIndicator(footerIndicator);
         chopinLayout.setOnRefreshListener(new ChopinLayout.OnRefreshListener() {
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 chopinLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        chopinLayout.refreshComplete();
+                        chopinLayout.loadMoreComplete();
                     }
                 }, COMPLETE_DELAY);
             }
@@ -56,19 +56,29 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, GRID_SPAN));
         List<LottieCase> lottieCases = new ArrayList<>();
-        lottieCases.add(new LottieCase("Around The World", IndicatorStore.LOTTIE_AROUND_THE_WORLD));
-        lottieCases.add(new LottieCase("Beer Bubbles", IndicatorStore.LOTTIE_BEER_BUBBLES));
-        lottieCases.add(new LottieCase("Black Dot Circle", IndicatorStore.LOTTIE_BLACK_DOT_CIRCLE));
-        lottieCases.add(new LottieCase("Four Black Ball Rotation", IndicatorStore.LOTTIE_BLACK_FOUR_BALL_ROTATION));
-        lottieCases.add(new LottieCase("Bounce Ball Red", IndicatorStore.LOTTIE_BOUNCE_BALL_RED));
-        lottieCases.add(new LottieCase("Circle Stroke White", IndicatorStore.LOTTIE_CIRCLE_STROKE_WHITE));
+        lottieCases.add(new LottieCase("Around The World", IndicatorStore.LOTTIE_AROUND_THE_WORLD,
+                0.2f, null));
+        lottieCases.add(new LottieCase("Beer Bubbles", IndicatorStore.LOTTIE_BEER_BUBBLES,
+                0.2f, "#FFA80F"));
+        lottieCases.add(new LottieCase("Black Dot Circle", IndicatorStore.LOTTIE_BLACK_DOT_CIRCLE,
+                0.3f, null));
+        lottieCases.add(new LottieCase("Four Black Ball Rotation", IndicatorStore.LOTTIE_BLACK_FOUR_BALL_ROTATION,
+                0.2f, "#ea6262"));
+        lottieCases.add(new LottieCase("Bounce Ball Red", IndicatorStore.LOTTIE_BOUNCE_BALL_RED,
+                0.2f, null));
+        lottieCases.add(new LottieCase("Circle Stroke White", IndicatorStore.LOTTIE_CIRCLE_STROKE_WHITE,
+                0.2f,"#000000"));
         LottieAdapter lottieAdapter = new LottieAdapter(this, lottieCases);
         recyclerView.setAdapter(lottieAdapter);
         lottieAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener<LottieCase>() {
             @Override
             public void onClick(View view, LottieCase item, int position) {
-                LottieIndicator headerIndicator = new LottieIndicator(MainActivity.this, item.fileName, 0.2f);
-                LottieIndicator footerIndicator = new LottieIndicator(MainActivity.this, item.fileName, 0.2f);
+                LottieIndicator headerIndicator = new LottieIndicator(MainActivity.this, item.fileName, item.scale);
+                LottieIndicator footerIndicator = new LottieIndicator(MainActivity.this, item.fileName, item.scale);
+                if (null != item.backgroundColor) {
+                    headerIndicator.setBackgroundColor(Color.parseColor(item.backgroundColor));
+                    footerIndicator.setBackgroundColor(Color.parseColor(item.backgroundColor));
+                }
                 chopinLayout.setRefreshHeaderIndicator(headerIndicator);
                 chopinLayout.setLoadingFooterIndicator(footerIndicator);
             }
@@ -98,9 +108,15 @@ public class MainActivity extends AppCompatActivity {
 
         public String fileName;
 
-        public LottieCase(String title, String fileName) {
+        public float scale;
+
+        public String backgroundColor;
+
+        public LottieCase(String title, String fileName, float scale, String backgroundColor) {
             this.title = title;
             this.fileName = fileName;
+            this.scale = scale;
+            this.backgroundColor = backgroundColor;
         }
     }
 }
