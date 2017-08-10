@@ -1,17 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.yat3s.chopin.ChopinLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/chopin_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBackground"
     tools:context="com.yat3s.indicatorstore.MainActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/lottie_rv"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#FFFFFF"
-        android:padding="8dp"/>
+        android:layout_height="wrap_content">
 
-</com.yat3s.chopin.ChopinLayout>
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary">
+
+            <RadioGroup
+                android:id="@+id/location_rg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:orientation="horizontal"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/location_outside_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/md_white_1000"
+                    android:buttonTint="@color/md_white_1000"
+                    android:text="Outside"/>
+
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/location_behind_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/md_white_1000"
+                    android:buttonTint="@color/md_white_1000"
+                    android:text="Behind"/>
+
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/location_front_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/md_white_1000"
+                    android:buttonTint="@color/md_white_1000"
+                    android:text="Front"/>
+
+            </RadioGroup>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <com.yat3s.chopin.ChopinLayout
+        android:id="@+id/chopin_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/lottie_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"/>
+
+    </com.yat3s.chopin.ChopinLayout>
+
+</LinearLayout>
+
